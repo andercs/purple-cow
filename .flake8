@@ -1,0 +1,8 @@
+[flake8]
+max-line-length = 100
+max-complexity = 10
+exclude =
+    .git,
+    .idea,
+per-file-ignores =
+    **/__init__.py:F401,F403,D104
