@@ -3,6 +3,12 @@
 This is a prototype application designed for tracking "Items" via a RESTful API.
 
 ## System Requirements
+
+* Ubuntu (or more generally Debian-flavored Linux)
+* Storage Requirements: 1GB
+* Docker (with ability to run as [non-root user](https://docs.docker.com/engine/install/linux-postinstall/))
+* Client/Tool to hit API endpoints (e.g. Chrome, FireFox, Postman, Curl, etc.)
+
 ## Building/Running
 
 Once the system requirements have been met, building and running should be as simple as performing the following command from the root of the project:
@@ -11,13 +17,15 @@ Once the system requirements have been met, building and running should be as si
 ./startup.sh
 ```
 
+While running the API should be accessible locally via `localhost`, `127.0.0.1`, and/or `[::1]` coupled with the web application's port (which can be [configured](#configuration)) with the path of `/item`, a la `http://localhost:3000/item`.
+
 When the application is ready to be terminated, shutting it down is also as easy as running:
 
 ```
 ./shutdown.sh
 ```
 
-No root permissions should be required; however, if it fails try the above commands with `sudo`. If it succeeds, feel free to open a new issue to resolve/clarify why non-root user permissions failed.
+No root permissions should be required assuming the above [guide](https://docs.docker.com/engine/install/linux-postinstall/) was followed; however, if it fails try the above commands with `sudo`. If it succeeds, feel free to open a new issue to resolve/clarify why non-root user permissions failed.
 
 **WARNING:** This has only been tested for Ubuntu-environments. It is likely to work in other Debian-environments; however, it is unlikely to work "as-is" in a Linux distribution based around SELinux, e.g. CentOS, Fedora, RedHat. This is due to various security concerns that SELinux flags when using Docker.
 
