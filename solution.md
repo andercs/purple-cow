@@ -47,6 +47,10 @@ During this project a number of assumptions had to be made when interpreting the
 
 8. Wasn't immediately clear that [README.md](README.md) was interchangeable with [solution.md](solution.md) so both were kept, with the README just pointing to this file.
 
+9. The client didn't request for the Item's `name` to be `unique` so duplicates are permitted for the time being.
+
+10. It wasn't specified whether the `id` should be an `int` or `uuid` so the latter was preferred in this case, as autoincrementing integers can pose a future security vulnerability by leaking information.
+
 ## Project Directory Structure
 
 ```
