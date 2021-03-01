@@ -17,7 +17,7 @@ When the application is ready to be terminated, shutting it down is also as easy
 ./shutdown.sh
 ```
 
-No root permissions should be required.
+No root permissions should be required; however, if it fails try the above commands with `sudo`. If it succeeds, feel free to open a new issue to resolve/clarify why non-root user permissions failed.
 
 **WARNING:** This has only been tested for Ubuntu-environments. It is likely to work in other Debian-environments; however, it is unlikely to work "as-is" in a Linux distribution based around SELinux, e.g. CentOS, Fedora, RedHat. This is due to various security concerns that SELinux flags when using Docker.
 
