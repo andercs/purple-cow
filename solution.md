@@ -89,5 +89,6 @@ purple-cow
 4. Make startup, shutdown, and restart scripts more robust (i.e. able to run them from anywhere on the Host machine)
 5. Split single web application docker container into Nginx and WSGI server (e.g. Gunicorn, uWSGI, etc.) containers
 6. Create developer onboarding material
+7. Test prototype usability on more than just Ubuntu
 
 Anything more than that would be pushing beyond the realms of this proof of concept without additional guidance from the client.
