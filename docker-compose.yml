@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  webapp:
+    build:
+      context: ./
+      dockerfile: .docker/webapp/Dockerfile
+    command: python manage.py runserver 0.0.0.0:3000
+    volumes:
+      - ./app/:/app/
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.docker/.env
