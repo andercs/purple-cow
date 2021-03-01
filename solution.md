@@ -72,8 +72,10 @@ purple-cow
 ## Future Work
 
 1. Add in Testing (Unit/Integration)
-2. Add in Authentication
-3. Make startup, shutdown, and restart scripts more robust (i.e. able to run them from anywhere on the Host machine)
-4. Split single web application docker container into Nginx and WSGI server (e.g. Gunicorn, uWSGI, etc.) containers
+2. Add in Logging
+3. Add in Authentication
+4. Make startup, shutdown, and restart scripts more robust (i.e. able to run them from anywhere on the Host machine)
+5. Split single web application docker container into Nginx and WSGI server (e.g. Gunicorn, uWSGI, etc.) containers
+6. Create developer onboarding material
 
 Anything more than that would be pushing beyond the realms of this proof of concept without additional guidance from the client.
