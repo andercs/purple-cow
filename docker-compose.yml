@@ -11,4 +11,21 @@ services:
     ports:
       - 3000:3000
     env_file:
-      - ./.docker/.env
+      - .docker/.env.dev
+    depends_on:
+      - db
+
+  db:
+    build:
+      context: ./
+      dockerfile: .docker/db/Dockerfile
+    volumes:
+      - pg-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=purple_cow
+      - POSTGRES_PASSWORD=purple_cow
+      - POSTGRES_DB=items
+    restart: always
+
+volumes:
+  pg-data:

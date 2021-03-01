@@ -13,8 +13,12 @@ RUN pip install --upgrade pip
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+# copy entrypoint.sh
+COPY .docker/webapp/entrypoint.sh /
+
+# copy the web application
 COPY app/ .
 
 EXPOSE 3000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:3000"]
+ENTRYPOINT ["/entrypoint.sh"]

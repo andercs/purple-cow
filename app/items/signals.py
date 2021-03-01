@@ -1,6 +1,12 @@
+from django.apps.registry import apps
+from django.db import DEFAULT_DB_ALIAS, connections
 from django.db.backends.base.base import BaseDatabaseWrapper
 from django.db.backends.signals import connection_created
+from django.db.migrations.autodetector import MigrationAutodetector
+from django.db.migrations.executor import MigrationExecutor
+from django.db.migrations.state import ProjectState
 from django.dispatch import receiver
+
 from items.models import Item
 from items.views.items import items
 
@@ -16,8 +22,35 @@ def load_items(connection: BaseDatabaseWrapper, **kwargs) -> None:
     :param kwargs: additional keyword arguments
     :return: None
     """
-    for item in Item.objects.all():
-        items[item.id] = item
+    connection = connections[DEFAULT_DB_ALIAS]
+    connection.prepare_database()
+    executor = MigrationExecutor(connection)
+    targets = executor.loader.graph.leaf_nodes()
+    autodetector = MigrationAutodetector(
+        executor.loader.project_state(),
+        ProjectState.from_apps(apps),
+    )
+
+    unmade_migrations = autodetector.changes(graph=executor.loader.graph)
+    unrun_migrations = executor.migration_plan(targets)
+
+    all_migrations_run = True
+    for app in unmade_migrations:
+        if "items" in str(app):
+            print("Can't load items. Detected unmade migrations.")
+            all_migrations_run = False
+            break
+
+    if all_migrations_run:
+        for migration, _ in unrun_migrations:
+            if "items" in str(migration):
+                print("Can't load items. Migrations need applied.")
+                all_migrations_run = False
+                break
+
+    if all_migrations_run:
+        for item in Item.objects.all():
+            items[item.id] = item
 
     # We do this to ensure this runs ONLY once per startup
     connection_created.disconnect(load_items)
