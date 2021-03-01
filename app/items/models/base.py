@@ -1,4 +1,4 @@
-"""This module provides a base model class, along with related classes."""
+"""This module provides a base model class for other models to inherit."""
 
 import uuid
 

@@ -1,6 +1,7 @@
 """This module defines items-related models."""
 
 from django.db import models
+
 from items.models.base import BaseModel
 
 

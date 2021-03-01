@@ -1,3 +1,5 @@
+"""Module provides Django-based signals to the 'items' application"""
+
 from django.apps.registry import apps
 from django.db import DEFAULT_DB_ALIAS, connections
 from django.db.backends.base.base import BaseDatabaseWrapper
@@ -7,6 +9,7 @@ from django.db.migrations.executor import MigrationExecutor
 from django.db.migrations.state import ProjectState
 from django.dispatch import receiver
 
+from items.constants import APP_NAME
 from items.models import Item
 from items.views.items import items
 
@@ -15,7 +18,9 @@ from items.views.items import items
 def load_items(connection: BaseDatabaseWrapper, **kwargs) -> None:
     """
     This function provides a way to load items into memory
-    on server startup. It unregisters itself to ensure that it is only run
+    on server startup from the target database.
+
+    It unregisters itself to ensure that it is only run
     once per startup.
 
     :param connection: a Django BaseDatabaseWrapper object
@@ -35,19 +40,22 @@ def load_items(connection: BaseDatabaseWrapper, **kwargs) -> None:
     unrun_migrations = executor.migration_plan(targets)
 
     all_migrations_run = True
+    # If there are any unmade migrations, we can't safely load the items into memory
     for app in unmade_migrations:
-        if "items" in str(app):
+        if APP_NAME in str(app):
             print("Can't load items. Detected unmade migrations.")
             all_migrations_run = False
             break
 
+    # If there aren't unmade migrations, check if any migrations still need applied
     if all_migrations_run:
         for migration, _ in unrun_migrations:
-            if "items" in str(migration):
+            if APP_NAME in str(migration):
                 print("Can't load items. Migrations need applied.")
                 all_migrations_run = False
                 break
 
+    # If all migrations are run and there aren't unmade migrations, we load the items into memory
     if all_migrations_run:
         for item in Item.objects.all():
             items[item.id] = item
